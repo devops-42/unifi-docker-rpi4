@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build src/docker --file Dockerfile --tag unifi-docker-rpi4:$(date +%s)
+      run: docker build src/docker --file src/docker/Dockerfile --tag unifi-docker-rpi4:$(date +%s)
