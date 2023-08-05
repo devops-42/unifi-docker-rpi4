@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  unifi:
+    container_name: unifi
+    build:
+      context: .
+    network_mode: host
+    volumes:
+      - 'mongodb:/var/lib/mongodb'
+      - 'unifi-logs:/usr/lib/unifi/logs'
+      - 'unifi-data:/usr/lib/unifi/data'
+    restart: unless-stopped
+
+volumes:
+  - mongodb:
+  - unifi-logs:
+  - unifi-data:
