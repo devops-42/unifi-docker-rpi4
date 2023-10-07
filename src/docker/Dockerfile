@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+RUN echo "185.125.188.27 keyserver.ubuntu.com" | tee -a /etc/hosts
+
 # https://github.com/moby/moby/issues/27988#issuecomment-462809153
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 

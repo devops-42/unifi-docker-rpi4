@@ -15,10 +15,6 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Add hosts to /etc/hosts
-        run: |
-          sudo echo "185.125.188.27 keyserver.ubuntu.com" | sudo tee -a /etc/hosts
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
