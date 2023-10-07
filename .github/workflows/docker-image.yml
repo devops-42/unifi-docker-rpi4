@@ -43,6 +43,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: src/docker
+          add-hosts: keyserver.ubuntu.com:185.125.188.27
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
