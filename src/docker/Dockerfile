@@ -15,7 +15,8 @@ RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 RUN dpkg --add-architecture armhf && \
     echo "deb https://www.ui.com/downloads/unifi/debian stable ubiquiti" | tee /etc/apt/sources.list.d/unifi.list && \
-    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 06E85760C0A52C50
+    gpg2 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 06E85760C0A52C50 && \
+    gpg2 --armor --export 06E85760C0A52C50 | apt-key add -
 
 RUN apt-get update || true
 RUN apt-get install -y \
