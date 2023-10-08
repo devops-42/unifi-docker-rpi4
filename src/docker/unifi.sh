@@ -16,6 +16,7 @@ mongod --fork --config=/etc/mongodb.conf
 	-Dunifi.datadir=/var/lib/unifi \
 	-Dunifi.logdir=/var/log/unifi \
 	-Dunifi.rundir=/var/run/unifi \
+	--add-opens java.base/java.time=ALL-UNNAMED \
 	-jar /usr/lib/unifi/lib/ace.jar start &
 
 # Wait for any process to exit
