@@ -13,8 +13,8 @@ RUN apt-get update && \
 RUN mkdir ~/.gnupg
 RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
-RUN dpkg --add-architecture armhf && \
-    echo "deb https://www.ui.com/downloads/unifi/debian stable ubiquiti" | tee /etc/apt/sources.list.d/unifi.list && \
+# Unifi seems to use amd64 only. The package is architecture independents, so it should run on arm64 too
+RUN echo "deb [arch=amd64] https://www.ui.com/downloads/unifi/debian stable ubiquiti" | tee /etc/apt/sources.list.d/unifi.list && \
     gpg2 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 06E85760C0A52C50 && \
     gpg2 --armor --export 06E85760C0A52C50 | apt-key add -
 
