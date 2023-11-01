@@ -5,8 +5,10 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 on:
- push:
-   branches: ['develop']
+  push:
+    branches: ['develop']
+    tags:
+      - '*'
 jobs:
 
   docker:
