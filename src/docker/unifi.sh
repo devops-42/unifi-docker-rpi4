@@ -3,7 +3,7 @@
 # Start MongoDB
 mongod --fork --config=/etc/mongodb.conf
 
-# Start Unifi controller (command taken from /etc/init.d/unifi
+# Start Unifi controller (command taken from /etc/init.d/unifi)
 /usr/bin/java \
 	-Dfile.encoding=UTF-8 \
 	-Djava.awt.headless=true \
