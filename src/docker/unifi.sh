@@ -1,7 +1,13 @@
 #!/bin/bash
 
-# Start MongoDB
-mongod --fork --config=/etc/mongodb.conf
+# Start MongoDB API layer
+nohup ferretdb &
+
+# Prepare unifi to use an external mongodb
+cat <<'EOM' >> /var/lib/unifi/system.properties
+db.mongo.local=false
+db.mongo.uri=mongodb://postgres:postgres@127.0.0.1:27017/postgres
+EOM
 
 # Start Unifi controller (command taken from /etc/init.d/unifi)
 /usr/bin/java \

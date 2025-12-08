@@ -1,18 +1,37 @@
-version: "3"
-
 services:
   unifi:
     container_name: unifi
-    build:
-      context: .
-    network_mode: host
+    image: foo:bar
+    ports:
+      - 8080:8080
+      - 8443:8443
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    environment:
+      FERRETDB_POSTGRESQL_URL: 'postgres://postgres:postgres@db:5432/postgres?sslmode=disable'
     volumes:
-      - 'mongodb:/var/lib/mongodb'
       - 'unifi-logs:/usr/lib/unifi/logs'
       - 'unifi-data:/usr/lib/unifi/data'
     restart: unless-stopped
+  db:
+    container_name: db
+    image: ghcr.io/ferretdb/postgres-documentdb:17-0.107.0-ferretdb-2.7.0
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U postgres -d postgres'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - 'db:/var/lib/postgresql'
+    restart: always
 
 volumes:
-  - mongodb:
-  - unifi-logs:
-  - unifi-data:
+  db:
+  unifi-logs:
+  unifi-data:
