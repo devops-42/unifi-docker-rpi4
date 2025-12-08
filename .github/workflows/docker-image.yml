@@ -39,11 +39,24 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push
+      - name: Build develop image
+        if: ${{ steps.meta.outputs.tags == 'develop' }}
+        uses: docker/build-push-action@v3
+        with:
+          context: src/docker
+          platforms: linux/arm64
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push tagged image
+        if: ${{ steps.meta.outputs.tags != 'develop' }}
         uses: docker/build-push-action@v3
         with:
           context: src/docker
           platforms: linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            UNIFY_VERSION=${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

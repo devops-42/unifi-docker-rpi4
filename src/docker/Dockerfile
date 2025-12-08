@@ -1,5 +1,11 @@
 FROM ubuntu:24.04
 
+ARG UNIFI_VERSION=10.0.160
+ARG FERRETDB_VERSION=2.7.0
+
+ENV UNIFI_VERSION=${UNIFI_VERSION}
+ENV FERRETDB_VERSION=${FERRETDB_VERSION}
+
 # https://github.com/moby/moby/issues/27988#issuecomment-462809153
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
@@ -11,29 +17,30 @@ RUN apt-get update && \
       curl \
       gnupg2
 
-# Basic GPG setup
-RUN mkdir -m 600 ~/.gnupg && \
-    mkdir -m 0755 -p /etc/apt/keyrings/ \
-    echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+# Install Temurin JRE
+RUN curl -fsSL https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
+RUN echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
+RUN apt update && \
+    apt install -y \
+      temurin-25-jre
 
-# Install MongoDB
-RUN curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
-    gpg --dearmor -o /etc/apt/keyrings/mongo.gpg && \
-    echo "deb [ arch=amd64,arm64 signed-by=/etc/apt/keyrings/mongo.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | \
-    tee /etc/apt/sources.list.d/mongodb-org-8.0.list
-RUN apt-get update || true
-RUN apt-get install -y \
-    mongodb-org
+# Get unifi network server's debian package
+RUN curl -fsSL https://dl.ui.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb -o /tmp/unifi-dist.deb
+RUN mkdir /debtmp && \
+    cd debtmp && \
+    dpkg-deb -R /tmp/unifi-dist.deb .
 
-# Unifi seems to use amd64 only. The package is architecture independent, so it should run on arm64 too
-RUN gpg2 --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 06E85760C0A52C50 && \
-    gpg2 --armor --export 06E85760C0A52C50 -o | \
-    gpg2 --dearmor -o /etc/apt/keyrings/unifi.gpg && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/unifi.gpg] https://www.ui.com/downloads/unifi/debian stable ubiquiti" | \
-    tee /etc/apt/sources.list.d/unifi.list
-RUN apt-get update || true
-RUN apt-get install -y \
-      unifi
+# Remove mongo dependencies and repackage
+RUN sed -i '/mongo/d' /debtmp/DEBIAN/control
+RUN dpkg -b /debtmp /tmp/unifi.deb
+
+# Install ferretdb as an API layer proxy for mongo (as mongodb is not supported officially on RPI)
+RUN curl -fsSL https://github.com/FerretDB/FerretDB/releases/download/v${FERRETDB_VERSION}/ferretdb-arm64-linux.deb -o /tmp/ferretdb-dist.deb && \
+    dpkg -i /tmp/ferretdb-dist.deb
+
+# Install Unifi package
+RUN apt install -y \
+ /tmp/unifi.deb
 
 WORKDIR /usr/local/bin
 COPY --chmod=0755 unifi.sh .
