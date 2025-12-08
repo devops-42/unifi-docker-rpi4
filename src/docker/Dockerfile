@@ -17,12 +17,12 @@ RUN apt-get update && \
       curl \
       gnupg2
 
-# Install Temurin JRE (update to 25 possible with 10.x versions of Unifi)
+# Install Temurin JRE
 RUN curl -fsSL https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
 RUN echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
 RUN apt update && \
     apt install -y \
-      temurin-24-jre
+      temurin-25-jre
 
 # Get unifi network server's debian package
 RUN curl -fsSL https://dl.ui.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb -o /tmp/unifi-dist.deb
