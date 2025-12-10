@@ -41,7 +41,7 @@ jobs:
 
       - name: Build develop image
         if: ${{ steps.meta.outputs.tags == 'develop' }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: src/docker
           platforms: linux/arm64
@@ -51,7 +51,7 @@ jobs:
 
       - name: Build and push tagged image
         if: ${{ steps.meta.outputs.tags != 'develop' }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: src/docker
           platforms: linux/arm64
