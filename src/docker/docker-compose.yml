@@ -1,7 +1,7 @@
 services:
   unifi:
     container_name: unifi
-    image: foo:bar
+    image: ghcr.io/devops-42/unifi-docker-rpi4:${IMAGE_TAG}
     ports:
       - 8080:8080
       - 8443:8443

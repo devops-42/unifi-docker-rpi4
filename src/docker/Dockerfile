@@ -1,6 +1,7 @@
 FROM ubuntu:24.04
 
 ARG UNIFI_VERSION=10.0.160
+# renovate: datasource=github-releases depName=FerretDB/FerretDB extractVersion=true
 ARG FERRETDB_VERSION=2.7.0
 
 ENV UNIFI_VERSION=${UNIFI_VERSION}
