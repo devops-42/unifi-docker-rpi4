@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "addLabels": ["renovate", "{{{manager}}}"],
+  {
+    "packageRules": [
+      {
+        "matchDatasources": ["docker"]
+      }
+    ]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+       "fileMatch": ["**/Dockerfile"],
+       "matchStrings": [
+         "renovate: datasource=(?<datasource>.*?) depName=(?<depName>\\S*)( versioning=(?<versioning>.*?))?( extractVersion=(?<extractVersion>.*?))?\\nARG .*?_VERSION=(?<currentValue>.*)\\s"
+       ],
+       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+       "extractVersionTemplate": "{{#if (equals extractVersion 'true')}}^v(?<version>\\S+){{/if}}"
+    }
+  ]
+}
