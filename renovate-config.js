@@ -21,7 +21,7 @@
         "defaultRegistryUrlTemplate": "https://community.ui.com/rss/releases/Releases/e6712595-81bb-4829-8e42-9e2630fabcfe",
         "format": "plain",
         "transformTemplates": [
-          "{\"releases\": $map($.releases[version ~> /<title>(\\d+\\.\\d+\\.\\d+<\\/title>/], function ($v) { {\"version\": $replace($v.version, /<title>(\\d+\\.\\d+\\.\\d+<\\/title>/, \"$1\")} })}"
+          "{\"releases\": $map($.releases[version ~> /<title>(\\d+\\.\\d+\\.\\d+<\\/title>/], function ($v) { {\"version\": $replace($v.version, /<title>(\\d+\\.\\d+\\.\\d+)<\\/title>/, \"$1\")} })}"
         ]
       }
     }
