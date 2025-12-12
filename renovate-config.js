@@ -34,14 +34,6 @@
        ],
        "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
        "extractVersionTemplate": "{{#if (equals extractVersion 'true')}}^v(?<version>\\S+){{/if}}"
-    },
-    {
-       "customType": "regex",
-       "description": "Update Unifi network application",
-       "fileMatch": ["**/Dockerfile"],
-       "matchStrings": [
-         "# renovate: datasource=(?<datasource>[a-z-.]+?) depName=(?<depName>.+?) versioning=(?<versioning>[^ ]+?)\\s+[a-z_]+\\s*=\\s*\"(?<currentValue>.+?)\""
-       ]
     }
   ]
 }
