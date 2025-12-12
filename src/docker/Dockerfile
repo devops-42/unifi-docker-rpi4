@@ -1,5 +1,6 @@
 FROM ubuntu:24.04
 
+# renovate: datasource=custom.unifi depName=unifi versioning=regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)$
 ARG UNIFI_VERSION=10.0.160
 # renovate: datasource=github-releases depName=FerretDB/FerretDB extractVersion=true
 ARG FERRETDB_VERSION=2.7.0
