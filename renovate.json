@@ -19,7 +19,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["src/docker/Dockerfile"],
+      "managerFilePatterns": [
+        "/src/docker/Dockerfile/"
+      ],
       "matchStrings": [
         "renovate: datasource=github-tags depName=(?<depName>.*?) versioning=(?<versioning>.*?)[\n|\r](?:ENV|ARG) .*?_VERSION=(?<currentValue>.*)"
       ],
@@ -28,7 +30,9 @@
     {
       "customType": "regex",
       "description": "Update Unifi network application",
-      "fileMatch": ["src/docker/Dockerfile"],
+      "managerFilePatterns": [
+        "/src/docker/Dockerfile/"
+      ],
       "matchStrings": [
         "renovate: datasource=custom.unifi depName=(?<depName>.*?)[\n|\r](?:ENV|ARG) .*?_VERSION=(?<currentValue>.*)"
       ],
