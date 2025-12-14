@@ -37,7 +37,7 @@ RUN sed -i '/mongo/d' /debtmp/DEBIAN/control
 RUN dpkg -b /debtmp /tmp/unifi.deb
 
 # Install ferretdb as an API layer proxy for mongo (as mongodb is not supported officially on RPI)
-RUN curl -fsSL https://github.com/FerretDB/FerretDB/releases/download/v${FERRETDB_VERSION}/ferretdb-arm64-linux.deb -o /tmp/ferretdb-dist.deb && \
+RUN curl -fsSL https://github.com/FerretDB/FerretDB/releases/download/${FERRETDB_VERSION}/ferretdb-arm64-linux.deb -o /tmp/ferretdb-dist.deb && \
     dpkg -i /tmp/ferretdb-dist.deb
 
 # Install Unifi package
