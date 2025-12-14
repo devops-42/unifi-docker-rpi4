@@ -3,7 +3,7 @@ FROM ubuntu:24.04
 # renovate: datasource=custom.unifi depName=unifi
 ARG UNIFI_VERSION=10.0.160
 # renovate: datasource=github-tags depName=FerretDB/FerretDB versioning=semver
-ARG FERRETDB_VERSION=2.6.9
+ARG FERRETDB_VERSION=v2.7.0
 
 ENV UNIFI_VERSION=${UNIFI_VERSION}
 ENV FERRETDB_VERSION=${FERRETDB_VERSION}
