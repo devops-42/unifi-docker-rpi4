@@ -17,6 +17,17 @@
       ]
     }
   },
+  "packageRules": [
+    {
+      "matchCategories": [ "ci" ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "groupName": "ci"
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
