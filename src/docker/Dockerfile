@@ -1,7 +1,7 @@
 FROM ubuntu:26.04@sha256:5e275723f82c67e387ba9e3c24baa0abdcb268917f276a0561c97bef9450d0b4
 
 # renovate: datasource=custom.unifi depName=unifi
-ARG UNIFI_VERSION=10.0.160
+ARG UNIFI_VERSION=10.3.58
 # renovate: datasource=github-tags depName=FerretDB/FerretDB versioning=semver
 ARG FERRETDB_VERSION=v2.7.0
 
