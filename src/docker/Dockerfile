@@ -17,14 +17,15 @@ RUN apt-get update && \
       apt-transport-https \
       ca-certificates \
       curl \
-      gnupg2
+      gnupg2 \
+      openjdk-25-jre # TODO: remove once temurin has provided a proper version
 
-# Install Temurin JRE
-RUN curl -fsSL https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
-RUN echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
-RUN apt update && \
-    apt install -y \
-      temurin-25-jre
+# Install Temurin JRE (post-poned: no package file available for latest ubuntu
+#RUN curl -fsSL https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /usr/share/keyrings/adoptium.gpg > /dev/null
+#RUN echo "deb [signed-by=/usr/share/keyrings/adoptium.gpg] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print $2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
+#RUN apt update && \
+#    apt install -y \
+#      temurin-25-jre
 
 # Get unifi network server's debian package
 RUN curl -fsSL https://dl.ui.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb -o /tmp/unifi-dist.deb
