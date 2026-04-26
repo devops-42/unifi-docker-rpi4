@@ -35,7 +35,7 @@
         "/src/docker/Dockerfile/"
       ],
       "matchStrings": [
-        "renovate: datasource=github-tags depName=(?<depName>.*?) versioning=(?<versioning>.*?)[\n|\r](?:ENV|ARG) .*?_VERSION=(?<currentValue>.*)"
+        "#\\s*renovate:\\s*datasource=github-tags depName=(?<depName>.*?) versioning=(?<versioning>.*?)[\n|\r](?:ENV|ARG)?\\s*.*?_VERSION=(?<currentValue>.*)"
       ],
       "datasourceTemplate": "github-releases"
     },
@@ -46,7 +46,7 @@
         "/src/docker/Dockerfile/"
       ],
       "matchStrings": [
-        "renovate: datasource=custom.unifi depName=(?<depName>.*?)[\n|\r](?:ENV|ARG) .*?_VERSION=(?<currentValue>.*)"
+        "#\\s*renovate:\\s*datasource=custom.unifi depName=(?<depName>.*?)[\n|\r](?:ENV|ARG)?\\s*.*?_VERSION=(?<currentValue>.*)"
       ],
       "datasourceTemplate": "custom.unifi"
     }
